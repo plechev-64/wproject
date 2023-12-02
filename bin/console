@@ -1,0 +1,65 @@
+#!/usr/bin/env php
+<?php
+// application.php
+
+use Core\MainConfig;
+use Core\Container\Container;
+use Core\Doctrine\LocalDateTimeType;
+use Core\MessageMiddleware;
+use Core\ORM;
+use Doctrine\DBAL\Types\Type;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Logger\ConsoleLogger;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Messenger\Command\ConsumeMessagesCommand;
+use Symfony\Component\Messenger\Command\StopWorkersCommand;
+use Symfony\Component\Messenger\RoutableMessageBus;
+
+require_once dirname(__DIR__, 1).'/wp-content/themes/don/vendor/autoload.php';
+
+//define( 'SHORTINIT', true );
+$_SERVER['HTTP_USER_AGENT'] = '';
+
+require_once dirname(__DIR__, 1).'/wp-load.php';
+
+Type::overrideType('datetime', LocalDateTimeType::class);
+
+( ORM::get() )->init( [
+	'dbname'   => DB_NAME,
+	'user'     => DB_USER,
+	'password' => DB_PASSWORD,
+	'host'     => DB_HOST,
+	'driver'   => 'mysqli',
+	'charset'  => DB_CHARSET,
+] );
+
+$application = new Application();
+
+$container  = Container::getInstance();
+/** @var MessageMiddleware $MessageMiddleware */
+$MessageMiddleware = $container->get(MessageMiddleware::class);
+$MessageMiddleware->initMiddleware();
+
+$output = new ConsoleOutput();
+$commands = [
+	new ConsumeMessagesCommand(
+		new RoutableMessageBus($container),
+		$container,
+		new EventDispatcher(),
+		new ConsoleLogger($output, [])
+	),
+	new StopWorkersCommand(
+		new FilesystemAdapter('', 10, __DIR__ . '/../var/cache')
+	)
+];
+
+foreach(MainConfig::COMMANDS as $command){
+	$commands[] = $container->get($command);
+}
+
+$application = new Application('Console');
+$application->addCommands($commands);
+
+$application->run(null, $output);

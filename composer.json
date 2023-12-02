@@ -1,0 +1,33 @@
+{
+  "name": "vendor_name/donm",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "admin",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "doctrine/orm": "^2.11.0",
+    "doctrine/dbal": "^3.2",
+    "symfony/yaml": "^5.4",
+    "symfony/cache": "^5.4",
+    "symfony/amqp-messenger": "^5.4",
+    "symfony/console": "^6.3",
+    "symfony/event-dispatcher": "^6.3",
+    "php-amqplib/php-amqplib": "^2.8",
+    "pdezwart/php-amqp": "^1.11",
+    "symfony/validator": "6.4.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Core\\": "src/Core",
+      "Common\\": "src/Common"
+    }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.40"
+  }
+}
