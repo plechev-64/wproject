@@ -3,30 +3,12 @@
 namespace Core;
 
 use Common\Command\FirstCommand;
-use Common\Command\FillGirlGroupsCommand;
-use Common\Command\FillIndiRegionCommand;
-use Common\Command\FillStoryCityCommand;
-use Common\Command\MigrateGirlCommand;
-use Common\Command\MigrateGirlHairCommand;
-use Common\Command\MigrateGirlWithOutMetroCommand;
-use Common\Controller\BlogController;
-use Common\Controller\FileController;
-use Common\Controller\MetrikaController;
-use Common\Controller\CronController;
-use Common\Controller\GirlController;
-use Common\Controller\SalonController;
-use Common\Controller\StoryController;
 use Common\Controller\PostController;
 use Common\Cron\CronCheckMessage;
 use Common\Cron\CronCheckMessageHandler;
 use Common\Cron\CronService;
-use Common\DTO\Object\Model\File\UploadFileListDTO;
-use Common\DTO\Object\Transformer\UploadFileListDTOFromFilesArrayTransformer;
-use Common\Message\Handler\HelpDeskSendMessageHandler;
-use Common\Message\Handler\TelegramSendMessageHandler;
-use Common\Message\HelpDeskSendMessage;
-use Common\Message\TelegramSendMessage;
-use Common\Service\ImageService;
+use Core\Controller\CronController;
+use Core\Service\ImageService;
 
 class MainConfig
 {
@@ -44,12 +26,6 @@ class MainConfig
             CronCheckMessage::class    => [
                 CronCheckMessageHandler::class
             ],
-            HelpDeskSendMessage::class => [
-                HelpDeskSendMessageHandler::class
-            ],
-            TelegramSendMessage::class => [
-                TelegramSendMessageHandler::class
-            ]
         ],
     ];
 
@@ -93,12 +69,13 @@ class MainConfig
 
     public const CONTROLLERS = [
         PostController::class,
+	    CronController::class,
     ];
 
     public const TRANSFORMERS = [
-        UploadFileListDTO::class => [
-            UploadFileListDTOFromFilesArrayTransformer::class
-        ],
+//        UploadFileListDTO::class => [
+//            UploadFileListDTOFromFilesArrayTransformer::class
+//        ],
     ];
 
     public const CRON_TASKS = [
