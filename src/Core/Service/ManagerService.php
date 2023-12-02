@@ -2,7 +2,7 @@
 
 namespace Core\Service;
 
-use Common\Model\ManagerIncomeModel;
+use Core\Model\ManagerIncomeModel;
 use Core\ObjectManager\ObjectManagerAbstract;
 use Doctrine\Common\Collections\ArrayCollection;
 
