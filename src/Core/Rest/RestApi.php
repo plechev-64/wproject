@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class RestApi
 {
     public const ROOT = 'wp-json';
-    public const NAMESPACE = 'don/v2';
+    public const NAMESPACE = 'project/v1';
     private const SIMPLE_PARAM_TYPE_INTEGER = 'int';
     private const SIMPLE_PARAM_TYPE_STRING = 'string';
     private const SIMPLE_PARAM_TYPE_BOOLEAN = 'bool';

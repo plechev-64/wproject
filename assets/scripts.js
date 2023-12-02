@@ -1,5 +1,5 @@
 
-let BaseRoute = '/wp-json/don/v2';
+let BaseRoute = '/wp-json/project/v1';
 
 let ObjectManagerList = {
 	list: [],
